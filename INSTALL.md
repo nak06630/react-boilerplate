@@ -1,4 +1,4 @@
-#
+# react-boilerplate
 
 ## step1
 
@@ -11,6 +11,17 @@ npm install
 npm run dev
 ```
 
+## step2 devtools
+
+- npm install --save-dev prettier eslint-config-prettier
+- npm install --save-dev eslint eslint-plugin-react
+- npm install --save-dev @tanstack/eslint-plugin-query
+- npm install --save-dev vitest
+- npm install --save-dev @testing-library/jest-dom @testing-library/react @testing-library/user-event jsdom
+
+## step3 setup
+
+### .editorconfig
 
 ```
 cat << EOF > .editorconfig
@@ -43,6 +54,8 @@ trim_trailing_whitespace = false
 EOF
 ```
 
+### vscode (\*\*\*.code-workspace)
+
 ```
 cat << EOF > react-app.code-workspace
 {
@@ -71,6 +84,8 @@ cat << EOF > react-app.code-workspace
 EOF
 ```
 
+### prettier (.prettierrc)
+
 ```
 cat << EOF > .prettierrc
 {
@@ -82,32 +97,27 @@ cat << EOF > .prettierrc
 EOF
 ```
 
-```
-cat << EOF >> .gitignore
+### eslint (.eslintrc.cjs)
 
-# dotenv environment variable files
-.env
-.env.development.local
-.env.test.local
-.env.production.local
-.env.local
-EOF
-```
-
-npm install --save-dev prettier eslint-config-prettier
-
-.eslintrc.cjs
-
-prettier を追加する。
-parserOptions を丸ごと追加する。
-ignorePatterns に 'vite.config.ts', 'tsconfig.json' を追加
+- prettier を追加する。
+- parserOptions, plugins, extends を READMEのとおりに追加
+- ignorePatterns に 'vite.config.ts', 'tsconfig.json' を追加
+- rules をいくつか更新
 
 ```
 cat << EOF > .eslintrc.cjs
 module.exports = {
   root: true,
   env: { browser: true, es2020: true },
-  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:react-hooks/recommended', 'prettier'],
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:react/jsx-runtime',
+    'plugin:@typescript-eslint/recommended-type-checked',
+    'plugin:react-hooks/recommended',
+    'plugin:@tanstack/eslint-plugin-query/recommended',
+    'prettier'
+  ],
   ignorePatterns: ['dist', '.eslintrc.cjs', 'vite.config.ts', 'tsconfig.json'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -116,10 +126,9 @@ module.exports = {
     project: ['./tsconfig.json', './tsconfig.node.json'],
     tsconfigRootDir: __dirname
   },
-  plugins: ['react-refresh'],
+  plugins: ['react', 'react-refresh', '@tanstack/query'],
   rules: {
-    'react/jsx-uses-react': 'off',
-    'react/react-in-jsx-scope': 'off',
+    'react/prop-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }]
   }
@@ -127,26 +136,10 @@ module.exports = {
 EOF
 ```
 
-vite.coinfig.ts
+### vite (vite.coinfig.ts)
 
-path と resolve追加。npm i -D @types/node も実行
-
-```
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
-// also don't forget to `npm i -D @types/node`, so __dirname won't complain
-import path from 'path'
-
-// https://vitejs.dev/config/
-export default defineConfig({
-  resolve: {
-    alias: [{ find: '@', replacement: path.resolve(__dirname, 'src') }]
-  },
-  plugins: [react()]
-})
-```
-
-npm install -D vitest @testing-library/jest-dom @testing-library/react @testing-library/user-event jsdom
+- @/ のパスエイリアスが効くように設定 → path と resolve を追加
+- test で、vitest の基本設定を追加
 
 ```
 cat << EOF > vite.config.ts
@@ -170,13 +163,9 @@ export default defineConfig({
 EOF
 ```
 
-npm install @mui/material @emotion/react @emotion/styled
-npm install @mui/joy
+### tsconfig.json
 
-npm install @fontsource/roboto
-npm install @mui/icons-material
-npm install react-hook-form zod @hookform/resolvers/zod
-npm install @mui/x-date-pickers date-fns
+- include に tests ディレクトリを追加
 
 ```
 cat << EOF > tsconfig.json
@@ -206,6 +195,25 @@ cat << EOF > tsconfig.json
   "references": [{ "path": "./tsconfig.node.json" }]
 }
 EOF
-
 ```
 
+### gitignore (.gitignore)
+
+```
+cat << EOF >> .gitignore
+
+# dotenv environment variable files
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+EOF
+```
+
+## step4
+
+- npm install @mui/material @emotion/react @emotion/styled
+- npm install @mui/icons-material
+- npm install @mui/x-date-pickers date-fns
+- npm install react-hook-form yup @hookform/resolvers

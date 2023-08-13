@@ -17,7 +17,7 @@ const Form = styled('form')({
 })
 
 const schema = yup.object().shape({
-  text: yup.string().required('1'),
+  text: yup.string().email().required('メールアドレスを入力してください'),
   radio: yup.string().required('2'),
   select: yup.string().required('3'),
   checkbox: yup.array().min(1, '4')
@@ -88,3 +88,4 @@ export default function Demo() {
     </Card>
   )
 }
+
