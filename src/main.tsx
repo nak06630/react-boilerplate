@@ -7,13 +7,18 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import ja from 'date-fns/locale/ja'
 import theme from './theme'
 import App from './App'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <StrictMode>
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ja}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <App />
+        <QueryClientProvider client={queryClient}>
+          <App />
+        </QueryClientProvider>
       </ThemeProvider>
     </LocalizationProvider>
   </StrictMode>

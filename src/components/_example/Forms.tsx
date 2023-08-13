@@ -69,6 +69,7 @@ export default function Demo() {
   return (
     <Card sx={{ maxWidth: 400, m: 5 }}>
       <CardHeader title="a" subheader="sample" />
+      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
       <Form onSubmit={handleSubmit(onSubmit)}>
         <CardContent>
           <Stack spacing={3}>
@@ -88,4 +89,3 @@ export default function Demo() {
     </Card>
   )
 }
-

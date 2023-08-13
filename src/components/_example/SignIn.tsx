@@ -1,4 +1,4 @@
-import { Controller, useForm } from 'react-hook-form'
+import { Controller, useForm, SubmitHandler } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { Avatar, Box, Button, Checkbox, Grid, Link, Paper, Stack, Typography } from '@mui/material'
@@ -10,7 +10,7 @@ import { teal } from '@mui/material/colors'
 const schema = yup.object().shape({
   id: yup.string().required('⚠ ユーザーIDが入力されていません。'),
   pass: yup.string().required('⚠ パスワードが入力されていません。'),
-  checkbox: yup.boolean()
+  checkbox: yup.boolean().required()
 })
 
 interface Inputs {
@@ -22,12 +22,12 @@ interface Inputs {
 const defaultValues: Inputs = { id: '', pass: '', checkbox: true }
 
 export default function Demo() {
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit } = useForm<Inputs>({
     defaultValues: defaultValues,
     resolver: yupResolver(schema)
   })
 
-  const onSubmit = (data: any) => {
+  const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
     window.alert(JSON.stringify(data, null, 2))
   }
 
@@ -42,6 +42,7 @@ export default function Demo() {
             Sign In
           </Typography>
         </Grid>
+        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing={3}>
             <NTextField label="ユーザーID" placeholder="user@example.com" name="id" fullWidth control={control} />

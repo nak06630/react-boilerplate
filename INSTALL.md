@@ -1,4 +1,4 @@
-# react-boilerplate
+#
 
 ## step1
 
@@ -13,11 +13,10 @@ npm run dev
 
 ## step2 devtools
 
-- npm install --save-dev prettier eslint-config-prettier
-- npm install --save-dev eslint eslint-plugin-react
-- npm install --save-dev @tanstack/eslint-plugin-query
-- npm install --save-dev vitest
-- npm install --save-dev @testing-library/jest-dom @testing-library/react @testing-library/user-event jsdom
+npm install --save-dev prettier eslint-config-prettier
+npm install --save-dev eslint eslint-plugin-react
+npm install --save-dev @tanstack/eslint-plugin-query
+npm install --save-dev vitest @testing-library/jest-dom @testing-library/react @testing-library/user-event jsdom
 
 ## step3 setup
 
@@ -189,7 +188,14 @@ cat << EOF > tsconfig.json
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    /* Alias */
+    "types": ["node"],
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": ["src", "tests"],
   "references": [{ "path": "./tsconfig.node.json" }]
@@ -213,7 +219,15 @@ EOF
 
 ## step4
 
-- npm install @mui/material @emotion/react @emotion/styled
-- npm install @mui/icons-material
-- npm install @mui/x-date-pickers date-fns
-- npm install react-hook-form yup @hookform/resolvers
+```
+npm install @mui/material @emotion/react @emotion/styled
+npm install @mui/icons-material
+npm install @mui/x-date-pickers date-fns
+npm install react-hook-form yup @hookform/resolvers
+npm install react-router-dom
+npm install recoil
+npm install @tanstack/react-query
+npm install axios
+npm install @tanstack/react-table
+ncu -u
+```
