@@ -1,5 +1,6 @@
 import { BrowserRouter } from 'react-router-dom'
 import { Routes, Route, Outlet, Link } from 'react-router-dom'
+import { Button } from '@mui/material'
 
 import Todo from '@/components/experimental/Todo'
 import SignIn2 from '@/components/experimental/SignIn'
@@ -10,43 +11,34 @@ import Vis from '@/components/experimental/Vis'
 import NotFound from '@/components/error/NotFound'
 import SignIn from '@/components/SignIn'
 
+interface Props {
+  link: string
+  to: string
+}
+
+const Button_link = ({ link, to, ...rest }: Props) => {
+  return (
+    <Button component={Link} to={to} {...rest}>
+      {link}
+    </Button>
+  )
+}
+
 function Layout() {
   return (
     <div>
       <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/signin">signin</Link>
-          </li>
-          <li>
-            <Link to="/signin2">signin2</Link>
-          </li>
-          <li>
-            <Link to="/Forms">Forms</Link>
-          </li>
-          <li>
-            <Link to="/todo">todo</Link>
-          </li>
-          <li>
-            <Link to="/LineChart">LineChart</Link>
-          </li>
-          <li>
-            <Link to="/Map">Map</Link>
-          </li>
-          <li>
-            <Link to="/Vis">Vis</Link>
-          </li>
-          <li>
-            <Link to="/nothing-here">Nothing Here</Link>
-          </li>
-        </ul>
+        <Button_link to="/" link="Home" />
+        <Button_link to="/signin" link="signin" />
+        <Button_link to="/signin2" link="signin2" />
+        <Button_link to="/Forms" link="Forms" />
+        <Button_link to="/todo" link="todo" />
+        <Button_link to="/LineChart" link="LineChart" />
+        <Button_link to="/Map" link="Map" />
+        <Button_link to="/Vis" link="Vis" />
+        <Button_link to="/404" link="404" />
       </nav>
-
       <hr />
-
       {/* An <Outlet> renders whatever child route is currently active,
           so you can think about this <Outlet> as a placeholder for
           the child routes we defined above. */}
