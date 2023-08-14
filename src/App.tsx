@@ -6,6 +6,7 @@ import SignIn2 from '@/components/experimental/SignIn'
 import Forms from '@/components/experimental/Forms'
 import LineChart from '@/components/experimental/LineChart'
 import Map from '@/components/experimental/Map'
+import Vis from '@/components/experimental/Vis'
 import NotFound from '@/components/error/NotFound'
 import SignIn from '@/components/SignIn'
 
@@ -36,6 +37,9 @@ function Layout() {
             <Link to="/Map">Map</Link>
           </li>
           <li>
+            <Link to="/Vis">Vis</Link>
+          </li>
+          <li>
             <Link to="/nothing-here">Nothing Here</Link>
           </li>
         </ul>
@@ -59,11 +63,10 @@ function App() {
           <Route path="signin" element={<SignIn />} />
           <Route path="signin2" element={<SignIn2 />} />
           <Route path="Forms" element={<Forms />} />
-
           <Route path="todo" element={<Todo />} />
           <Route path="LineChart" element={<LineChart />} />
           <Route path="Map" element={<Map />} />
-
+          <Route path="Vis" element={<Vis />} />
           {/* Using path="*"" means "match anything", so this route
                 acts like a catch-all for URLs that we don't have explicit
                 routes for. */}
