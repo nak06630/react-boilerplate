@@ -25,8 +25,13 @@ module.exports = {
   },
   plugins: ['react', 'react-refresh', '@tanstack/query'],
   rules: {
-    'react/prop-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-unsafe-return': 'off',
+    '@typescript-eslint/no-unsafe-assignment': 'off',
+    '@typescript-eslint/no-unsafe-argument': 'off',
+    // https://github.com/orgs/react-hook-form/discussions/8020
+    // https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/docs/rules/no-misused-promises.md
+    '@typescript-eslint/no-misused-promises': ['error', { checksVoidReturn: { arguments: false, attributes: false } }],
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }]
   }
 }

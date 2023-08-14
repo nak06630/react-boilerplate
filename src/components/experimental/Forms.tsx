@@ -17,39 +17,39 @@ const Form = styled('form')({
 })
 
 const schema = yup.object().shape({
-  text: yup.string().email().required('メールアドレスを入力してください'),
-  radio: yup.string().required('2'),
-  select: yup.string().required('3'),
-  checkbox: yup.array().min(1, '4')
+  text1: yup.string().email('⚠ メールアドレス形式で入力してください').required('⚠ メールアドレスを入力してください'),
+  radio1: yup.string().required('2'), // でない
+  select1: yup.string().required('3'), // でない
+  checkbox1: yup.array().min(1, '⚠ 1つ以上選択してください')
 })
 
 type Inputs = {
-  text: string
-  radio: string
-  select: string
-  checkbox: string[]
+  text1: string
+  radio1: string
+  select1: string
+  checkbox1: string[]
 }
 
 const defaultValues: Inputs = {
-  text: '',
-  radio: 'apple',
-  select: 'apple2',
-  checkbox: []
+  text1: '',
+  radio1: 'apple',
+  select1: 'apple2',
+  checkbox1: []
 }
 
-const radio_props = [
+const radio1_props = [
   { label: 'りんご', value: 'apple' },
   { label: 'みかん', value: 'orange' },
   { label: 'ばなな', value: 'banana' }
 ]
 
-const select_props = [
+const select1_props = [
   { label: 'りんご2', value: 'apple2' },
   { label: 'みかん2', value: 'orange2' },
   { label: 'ばなな2', value: 'banana2' }
 ]
 
-const checkbox_props = [
+const checkbox1_props = [
   { label: 'りんご3', value: 'apple3' },
   { label: 'みかん3', value: 'orange3' },
   { label: 'ばなな3', value: 'banana3' }
@@ -62,7 +62,6 @@ export default function Demo() {
   })
 
   const onSubmit = (data: any) => {
-    // 通常であればAPIなどを呼び出しますが、今回はサンプルのためアラートを出します
     window.alert(JSON.stringify(data, null, 2))
   }
 
@@ -73,10 +72,10 @@ export default function Demo() {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <CardContent>
           <Stack spacing={3}>
-            <NTextField label="メールアドレス" name="text" control={control} />
-            <NRadioGroup label="らじお" name="radio" control={control} radioPropsList={radio_props} />
-            <NSelect label="せれくと" name="select" control={control} selectPropsList={select_props} />
-            <NCheckboxGroup label="ちぇっくぼっくす" name="checkbox" control={control} checkBoxPropsList={checkbox_props} />
+            <NTextField label="メールアドレス" name="text1" control={control} />
+            <NRadioGroup label="らじお" name="radio1" control={control} radioPropsList={radio1_props} />
+            <NSelect label="せれくと" name="select1" control={control} selectPropsList={select1_props} />
+            <NCheckboxGroup label="ちぇっくぼっくす" name="checkbox1" control={control} checkBoxPropsList={checkbox1_props} />
           </Stack>
         </CardContent>
         <CardActions>

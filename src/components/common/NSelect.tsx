@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { FormControl, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material'
 import type { SelectProps as MuiSelectProps } from '@mui/material'
 import { useController } from 'react-hook-form'
@@ -22,7 +23,7 @@ const SelectForm: React.FC<SelectFormProps> = ({ inputRef, errorMessage, selectP
     <div>
       <FormControl sx={{ width: '100%' }}>
         <InputLabel>{label}</InputLabel>
-        <Select ref={inputRef} value={selectedValue} label={label} {...rest}>
+        <Select ref={inputRef} value={selectedValue} label={label} data-testid={label} {...rest}>
           {selectPropsList.map((props) => (
             <MenuItem key={props.value} value={props.value}>
               {props.label}
