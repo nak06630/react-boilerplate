@@ -18,10 +18,10 @@ type CheckboxGroupProps = FormGroupProps & {
   label: string
 }
 
-const CheckboxGroup: React.FC<CheckboxGroupProps> = ({ inputRef, checkBoxPropsList, checkedValues, label, errorMessage, ...rest }) => {
+const CheckboxGroup: React.FC<CheckboxGroupProps> = ({ inputRef, checkBoxPropsList, checkedValues, label, errorMessage, ...rest }: CheckboxGroupProps) => {
   return (
     <div>
-      <FormLabel sx={{ fontWeight: 'bold', fontSize: '0.7rem' }}>{label}</FormLabel>
+      <FormLabel sx={{ fontWeight: 'bold', fontSize: '0.85rem' }}>{label}</FormLabel>
       <FormGroup ref={inputRef} {...rest}>
         {checkBoxPropsList.map((props) => (
           <FormControlLabel

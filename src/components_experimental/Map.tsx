@@ -9,8 +9,8 @@ const Map = () => {
   return (
     <MapContainer center={[35.6809591, 139.7673068]} zoom={12} scrollWheelZoom={false} style={{ height: '500px', width: '100%' }}>
       <TileLayer
-        url="https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}"
-        attribution="<a href='https://developers.google.com/maps/documentation' target='_blank'>Google Map</a>"
+        url="https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png"
+        attribution="<a href='https://maps.gsi.go.jp/development/ichiran.html' target='_blank'>地理院タイル</a>"
       />
       <MarkerClusterGroup>
         <Marker position={[35.7, 139.7]}>

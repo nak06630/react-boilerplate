@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import { vi } from 'vitest'
-import SignIn from '@/components/experimental/SignIn'
+import SignIn from '@/components_experimental/SignIn'
 
 const setup = () => {
   const user = userEvent.setup()

@@ -67,12 +67,11 @@ export default function Demo() {
 
   return (
     <Card sx={{ maxWidth: 400, m: 5 }}>
-      <CardHeader title="a" subheader="sample" />
-      {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+      <CardHeader title="Formサンプル" subheader="sample" />
       <Form onSubmit={handleSubmit(onSubmit)}>
         <CardContent>
           <Stack spacing={3}>
-            <NTextField label="メールアドレス" name="text1" control={control} />
+            <NTextField label="メールアドレス" name="text1" control={control} fullWidth />
             <NRadioGroup label="らじお" name="radio1" control={control} radioPropsList={radio1_props} />
             <NSelect label="せれくと" name="select1" control={control} selectPropsList={select1_props} />
             <NCheckboxGroup label="ちぇっくぼっくす" name="checkbox1" control={control} checkBoxPropsList={checkbox1_props} />

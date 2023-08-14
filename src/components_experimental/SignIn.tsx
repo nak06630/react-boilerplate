@@ -42,7 +42,6 @@ export default function Demo() {
             Sign In
           </Typography>
         </Grid>
-        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing={3}>
             <NTextField label="ユーザーID" placeholder="user@example.com" name="id" fullWidth control={control} />

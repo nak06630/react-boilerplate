@@ -98,16 +98,21 @@ EOF
 
 ### eslint (.eslintrc.cjs)
 
-- prettier を追加する。
-- parserOptions, plugins, extends を READMEのとおりに追加
-- ignorePatterns に 'vite.config.ts', 'tsconfig.json' を追加
-- rules をいくつか更新
+-   prettier を追加する。
+-   parserOptions, plugins, extends を READMEのとおりに追加
+-   ignorePatterns に 'vite.config.ts', 'tsconfig.json' を追加
+-   rules をいくつか更新
 
 ```
 cat << EOF > .eslintrc.cjs
 module.exports = {
   root: true,
   env: { browser: true, es2020: true },
+  settings: {
+    react: {
+      version: 'detect'
+    }
+  },
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
@@ -132,39 +137,53 @@ module.exports = {
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }]
   }
 }
+
 EOF
 ```
 
 ### vite (vite.coinfig.ts)
 
-- @/ のパスエイリアスが効くように設定 → path と resolve を追加
-- test で、vitest の基本設定を追加
+-   @/ のパスエイリアスが効くように設定 → path と resolve を追加
+-   test で、vitest の基本設定を追加
+-   process.envを使えるようにする。
 
 ```
 cat << EOF > vite.config.ts
 /// <reference types="vitest" />
-import { defineConfig } from 'vite'
+import { ConfigEnv, defineConfig, loadEnv, UserConfigExport } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 // also don't forget to "npm i -D @types/node", so __dirname won't complain
 import path from 'path'
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  resolve: {
-    alias: [{ find: '@', replacement: path.resolve(__dirname, 'src') }]
-  },
-  plugins: [react()],
-  test: {
-    globals: true,
-    environment: 'jsdom'
-  }
-})
+export default ({ mode }: ConfigEnv): UserConfigExport => {
+  const env = loadEnv(mode, process.cwd())
+
+  // https://github.com/vitejs/vite/issues/1149#issuecomment-857686209
+  // expose .env as process.env instead of import.meta since jest does not import meta yet
+  const envWithProcessPrefix = Object.entries(env).reduce((prev, [key, val]) => {
+    return { ...prev, ['process.env.' + key]: `"${val}"` }
+  }, {})
+
+  return defineConfig({
+    // vite の設定
+    define: envWithProcessPrefix,
+    resolve: {
+      alias: [{ find: '@', replacement: path.resolve(__dirname, 'src') }]
+    },
+    plugins: [react()],
+    test: {
+      globals: true,
+      environment: 'jsdom'
+    }
+  })
+}
 EOF
 ```
 
 ### tsconfig.json
 
-- include に tests ディレクトリを追加
+-   include に tests ディレクトリを追加
 
 ```
 cat << EOF > tsconfig.json
@@ -217,17 +236,190 @@ cat << EOF >> .gitignore
 EOF
 ```
 
+### index.html
+
+```
+cat << EOF > index.html
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React + TS</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      window.global = window
+    </script>
+  </body>
+</html>
+EOF
+```
+
+### .env
+
+```
+cat << EOF > .env
+VITE_USER_POOL_ID=""
+VITE_USER_POOL_WEB_CLIENT_ID=""
+```
+
+### .env.development
+
+```
+cat << EOF > .env.development
+VITE_USER_POOL_ID=""
+VITE_USER_POOL_WEB_CLIENT_ID=""
+```
+
 ## step4
 
 ```
 npm install @mui/material @emotion/react @emotion/styled
 npm install @mui/icons-material
+npm install @mui/lab
 npm install @mui/x-date-pickers date-fns
+npm install @mui/x-data-grid
 npm install react-hook-form yup @hookform/resolvers
 npm install react-router-dom
 npm install recoil
 npm install @tanstack/react-query
 npm install axios
 npm install @tanstack/react-table
+npm install @aws-amplify/auth
+npm install aws-jwt-verify
+npm install react-router-dom
+npm install chart.js react-chartjs-2 chartjs-adapter-date-fns
+npm install leaflet react-leaflet @changey/react-leaflet-markercluster
+npm install -D @types/leaflet
+npm install qrcode.react
+npm install vis-network
 ncu -u
+```
+
+## step5
+
+### src/theme.tsx
+
+```
+cat << EOF > src/theme.tsx
+import { createTheme } from '@mui/material/styles'
+import { red } from '@mui/material/colors'
+
+// A custom theme for this app
+const theme = createTheme({
+  typography: {
+    fontFamily: ['Noto Sans JP', 'sans-serif'].join(',')
+  },
+  palette: {
+    primary: { main: '#002b62' },
+    secondary: { main: '#19857b' },
+    background: { default: '#f5f5f5' },
+    error: { main: red.A400 }
+  },
+  // https://qiita.com/honey32/items/b3585b75307b865267aa
+  components: {
+    // TextField 関連のコンポーネントのスタイルを調整する
+    MuiInputLabel: {
+      styleOverrides: {
+        formControl: {
+          // 移動をクリック時に動かないように固定
+          position: 'static',
+          transform: 'none',
+          transition: 'none',
+          // タイポグラフィを指定
+          fontWeight: 'bold',
+          fontSize: '0.85rem'
+        }
+      }
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          marginTop: 4
+        },
+        input: {
+          height: 'auto'
+        },
+        notchedOutline: {
+          // デフォルトだと、 position が absolute、
+          // ラベルをはみ出させるため上に少しの余白がある
+          top: 0,
+          legend: {
+            // 内包された legend 要素によって、四角の左側の切り欠きが実現されているので、
+            // 表示されないように。
+            // (SCSS と同様にネスト記述が可能です。)
+            display: 'none'
+          }
+        }
+      }
+    },
+    MuiFormHelperText: {
+      styleOverrides: {
+        root: {
+          // フォーム下部のテキスト、エラーメッセージ
+          // お好みで左余白を無くしています。
+          marginLeft: 0
+        }
+      }
+    }
+  }
+})
+export default theme
+EOF
+```
+
+### src/main.tsx
+
+```
+cat << EOF > src/main.tsx
+import { StrictMode } from 'react'
+import * as ReactDOM from 'react-dom/client'
+import { ThemeProvider } from '@emotion/react'
+import { CssBaseline } from '@mui/material'
+import { RecoilRoot } from 'recoil'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import ja from 'date-fns/locale/ja'
+import theme from './theme'
+import App from './App'
+
+const queryClient = new QueryClient()
+
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+  <StrictMode>
+    <RecoilRoot>
+      <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ja}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <QueryClientProvider client={queryClient}>
+            <App />
+          </QueryClientProvider>
+        </ThemeProvider>
+      </LocalizationProvider>
+    </RecoilRoot>
+  </StrictMode>
+)
+EOF
+```
+
+### src/aws-exports.ts
+
+```
+cat << EOF > src/aws-exports.ts
+export default {
+  aws_cognito_region: 'ap-northeast-1',
+  aws_user_pools_id: process.env.VITE_USER_POOLS_ID,
+  aws_user_pools_web_client_id: process.env.VITE_USER_POOLS_WEB_CLIENT_ID,
+  oauth: {}
+}
+EOF
 ```

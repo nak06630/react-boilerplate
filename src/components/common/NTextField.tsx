@@ -8,7 +8,7 @@ type TextFieldProps = MuiTextFieldProps & {
   errorMessage?: string
 }
 
-const TextField: React.FC<TextFieldProps> = ({ inputRef, errorMessage, ...rest }) => {
+const TextField: React.FC<TextFieldProps> = ({ inputRef, errorMessage, ...rest }: TextFieldProps) => {
   return (
     <div>
       <MuiTextField ref={inputRef} error={!!errorMessage} {...rest} />

@@ -17,11 +17,11 @@ type RadioGroupProps = MuiRadioGroupProps & {
   label?: string
 }
 
-const RadioGroup: React.FC<RadioGroupProps> = ({ inputRef, radioPropsList, errorMessage, label, ...rest }) => {
+const RadioGroup: React.FC<RadioGroupProps> = ({ inputRef, radioPropsList, errorMessage, label, ...rest }: RadioGroupProps) => {
   return (
     <div>
       <FormControl error={!!errorMessage}>
-        <FormLabel sx={{ fontWeight: 'bold', fontSize: '0.7rem' }}>{label}</FormLabel>
+        <FormLabel sx={{ fontWeight: 'bold', fontSize: '0.85rem' }}>{label}</FormLabel>
         <MuiRadioGroup ref={inputRef} {...rest}>
           {radioPropsList.map((el) => (
             <FormControlLabel key={el.value} value={el.value} label={el.label} control={<Radio size="small" />} />

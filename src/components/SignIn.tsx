@@ -70,13 +70,13 @@ export default function CardSignIn() {
           return
         }
         await Auth.completeNewPassword(user, newPassword)
-        navigate('/groups/')
+        navigate('/main/')
       } else {
         console.log(challengeName)
       }
     } catch (error: any) {
       setIsAlert(true)
-      const { code, message }: { code: string | undefined; message: string | undefined } = error
+      const { code, message }: { code?: string; message?: string } = error
       switch (code) {
         case 'UserNotFoundException':
         case 'NotAuthorizedException':
@@ -89,7 +89,7 @@ export default function CardSignIn() {
   }
 
   return (
-    <Card>
+    <Card sx={{ p: 4, width: '480px', m: '20px auto' }}>
       {isAlert && (
         <Alert
           severity="error"
@@ -104,8 +104,15 @@ export default function CardSignIn() {
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack spacing={3}>
-            <TextField label="ユーザーID" type="email" {...register('email')} error={'email' in errors} helperText={errors.email?.message} />
-            <TextField label="パスワード" type="password" {...register('password')} error={'password' in errors} helperText={errors.password?.message} />
+            <TextField label="ユーザーID" type="email" size="small" {...register('email')} error={'email' in errors} helperText={errors.email?.message} />
+            <TextField
+              label="パスワード"
+              type="password"
+              size="small"
+              {...register('password')}
+              error={'password' in errors}
+              helperText={errors.password?.message}
+            />
             <Button type="submit" color="primary" variant="contained" size="large">
               ログイン
             </Button>
