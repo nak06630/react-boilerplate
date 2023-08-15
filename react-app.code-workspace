@@ -16,6 +16,7 @@
       "editorconfig.editorconfig",
       "dbaeumer.vscode-eslint",
       "esbenp.prettier-vscode",
+      "zixuanchen.vitest-explorer",
       "ms-vscode.live-server",
       "shd101wyy.markdown-preview-enhanced"
     ]
