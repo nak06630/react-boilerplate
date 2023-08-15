@@ -3,10 +3,9 @@
 ## step1
 
 ```
-npm create vite -- --template react-swc-ts
-react-boilerplate
-
-cd react-boilerplate
+npm create vite -- react-app --template react-swc-ts
+cd react-app
+npx npm-check-updates -u
 npm install
 npm run dev
 ```
@@ -31,12 +30,12 @@ root = true
 
 # Unix-style newlines with a newline ending every file
 [*]
+charset = utf-8
 indent_style = space
 indent_size = 2
+end_of_line = lf
 insert_final_newline = true
 trim_trailing_whitespace = true
-end_of_line = lf
-charset = utf-8
 
 [*.py]
 indent_size = 4
@@ -44,11 +43,9 @@ indent_size = 4
 [*.html]
 indent_size = 2
 
-[*.json]
-indent_size = 2
-insert_final_newline = ignore
-
 [*.md]
+indent_size = 4
+insert_final_newline = false
 trim_trailing_whitespace = false
 EOF
 ```
@@ -102,6 +99,7 @@ EOF
 -   parserOptions, plugins, extends を READMEのとおりに追加
 -   ignorePatterns に 'vite.config.ts', 'tsconfig.json' を追加
 -   rules をいくつか更新
+-   reactのバージョンを追加（settings.react.version）
 
 ```
 cat << EOF > .eslintrc.cjs
@@ -132,51 +130,15 @@ module.exports = {
   },
   plugins: ['react', 'react-refresh', '@tanstack/query'],
   rules: {
-    'react/prop-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-unsafe-return': 'off',
+    '@typescript-eslint/no-unsafe-assignment': 'off',
+    '@typescript-eslint/no-unsafe-argument': 'off',
+    // https://github.com/orgs/react-hook-form/discussions/8020
+    // https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/docs/rules/no-misused-promises.md
+    '@typescript-eslint/no-misused-promises': ['error', { checksVoidReturn: { arguments: false, attributes: false } }],
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }]
   }
-}
-
-EOF
-```
-
-### vite (vite.coinfig.ts)
-
--   @/ のパスエイリアスが効くように設定 → path と resolve を追加
--   test で、vitest の基本設定を追加
--   process.envを使えるようにする。
-
-```
-cat << EOF > vite.config.ts
-/// <reference types="vitest" />
-import { ConfigEnv, defineConfig, loadEnv, UserConfigExport } from 'vite'
-import react from '@vitejs/plugin-react-swc'
-// also don't forget to "npm i -D @types/node", so __dirname won't complain
-import path from 'path'
-
-// https://vitejs.dev/config/
-export default ({ mode }: ConfigEnv): UserConfigExport => {
-  const env = loadEnv(mode, process.cwd())
-
-  // https://github.com/vitejs/vite/issues/1149#issuecomment-857686209
-  // expose .env as process.env instead of import.meta since jest does not import meta yet
-  const envWithProcessPrefix = Object.entries(env).reduce((prev, [key, val]) => {
-    return { ...prev, ['process.env.' + key]: `"${val}"` }
-  }, {})
-
-  return defineConfig({
-    // vite の設定
-    define: envWithProcessPrefix,
-    resolve: {
-      alias: [{ find: '@', replacement: path.resolve(__dirname, 'src') }]
-    },
-    plugins: [react()],
-    test: {
-      globals: true,
-      environment: 'jsdom'
-    }
-  })
 }
 EOF
 ```
@@ -269,6 +231,7 @@ EOF
 cat << EOF > .env
 VITE_USER_POOL_ID=""
 VITE_USER_POOL_WEB_CLIENT_ID=""
+EOF
 ```
 
 ### .env.development
@@ -277,34 +240,72 @@ VITE_USER_POOL_WEB_CLIENT_ID=""
 cat << EOF > .env.development
 VITE_USER_POOL_ID=""
 VITE_USER_POOL_WEB_CLIENT_ID=""
+EOF
 ```
 
 ## step4
 
+### vite.coinfig.ts
+
+-   @/ のパスエイリアスが効くように設定 → path と resolve を追加
+-   test で、vitest の基本設定を追加
+-   process.envを使えるようにする。
+
+vite.config.ts (catでは張り付けられないので書き換え)
+
+```
+/// <reference types="vitest" />
+import { ConfigEnv, defineConfig, loadEnv, UserConfigExport } from 'vite'
+import react from '@vitejs/plugin-react-swc'
+// also don't forget to "npm i -D @types/node", so __dirname won't complain
+import path from 'path'
+
+// https://vitejs.dev/config/
+export default ({ mode }: ConfigEnv): UserConfigExport => {
+  const env = loadEnv(mode, process.cwd())
+
+  // https://github.com/vitejs/vite/issues/1149#issuecomment-857686209
+  // expose .env as process.env instead of import.meta since jest does not import meta yet
+  const envWithProcessPrefix = Object.entries(env).reduce((prev, [key, val]) => {
+    return { ...prev, ['process.env.' + key]: `"${val}"` }
+  }, {})
+
+  return defineConfig({
+    // vite の設定
+    define: envWithProcessPrefix,
+    resolve: {
+      alias: [{ find: '@', replacement: path.resolve(__dirname, 'src') }]
+    },
+    plugins: [react()],
+    test: {
+      globals: true,
+      environment: 'jsdom'
+    }
+  })
+}
+```
+
+## step5
+
 ```
 npm install @mui/material @emotion/react @emotion/styled
 npm install @mui/icons-material
-npm install @mui/lab
-npm install @mui/x-date-pickers date-fns
-npm install @mui/x-data-grid
+npm install @mui/lab @mui/x-date-pickers date-fns @mui/x-data-grid
 npm install react-hook-form yup @hookform/resolvers
 npm install react-router-dom
 npm install recoil
 npm install @tanstack/react-query
 npm install axios
 npm install @tanstack/react-table
-npm install @aws-amplify/auth
-npm install aws-jwt-verify
-npm install react-router-dom
+npm install aws-amplify aws-jwt-verify
 npm install chart.js react-chartjs-2 chartjs-adapter-date-fns
 npm install leaflet react-leaflet @changey/react-leaflet-markercluster
 npm install -D @types/leaflet
 npm install qrcode.react
 npm install vis-network
-ncu -u
 ```
 
-## step5
+## step6
 
 ### src/theme.tsx
 

@@ -1,3 +1,4 @@
+import { describe, test, expect } from 'vitest'
 import { jst2utc, jst2utcms, date2utc, date2utcms, utc2jst, utc2jst_jp } from '@/utils/misc'
 
 describe('日時変換', () => {

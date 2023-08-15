@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
-import { vi } from 'vitest'
+import { describe, test, expect, vi } from 'vitest'
 import SignIn from '@/components/SignIn'
 
 const mockedUsedNavigate = vi.fn()
