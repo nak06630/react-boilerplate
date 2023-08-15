@@ -27,7 +27,7 @@ export default function LineChart() {
           displayFormats: {
             hour: ['MM/dd HH:mm']
           }
-          //          tooltipFormat: 'HH:mm'
+          // tooltipFormat: 'HH:mm'
         }
       },
       y: { beginAtZero: true, suggestedMax: 1, title: { display: true, text: 'sample' } }

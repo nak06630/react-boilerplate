@@ -31,23 +31,3 @@ export const currentUserState = atom<CognitoUser | null>({
   default: null,
   dangerouslyAllowMutability: true // https://zenn.dev/sikkim/articles/f63c6f9d365ecf
 })
-
-// signin
-type signinUser = {
-  username: string
-  isVerification: boolean
-}
-export const signinUserState = atom<signinUser | null>({
-  key: 'signinUserState',
-  default: null
-})
-
-// signup
-type signupUser = {
-  username: string
-  isVerification: boolean
-}
-export const signupUserState = atom<signupUser | null>({
-  key: 'signupUserState',
-  default: null
-})

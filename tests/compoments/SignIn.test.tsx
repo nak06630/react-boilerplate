@@ -14,7 +14,7 @@ vi.mock('recoil', async () => {
   return { ...actual, useRecoilState: () => [{}, vi.fn()] }
 })
 
-vi.mock('@aws-amplify/auth', () => {
+vi.mock('aws-amplify', () => {
   return {
     Auth: {
       configure: () => vi.fn(),
@@ -44,7 +44,7 @@ describe('SignIn', () => {
     await user.click(submit)
 
     await waitFor(() => {
-      expect(mockedUsedNavigate).toBeCalledWith('/groups/')
+      expect(mockedUsedNavigate).toBeCalledWith('/main/')
     })
   })
 

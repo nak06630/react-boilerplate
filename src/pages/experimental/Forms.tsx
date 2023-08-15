@@ -55,7 +55,7 @@ const checkbox1_props = [
   { label: 'ばなな3', value: 'banana3' }
 ]
 
-export default function Demo() {
+export default function Forms() {
   const { control, handleSubmit, reset } = useForm({
     defaultValues: defaultValues,
     resolver: yupResolver(schema)

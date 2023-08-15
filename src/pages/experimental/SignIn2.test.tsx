@@ -2,12 +2,12 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import { describe, test, expect, vi } from 'vitest'
-import SignIn from '@/components_experimental/SignIn'
+import SignIn2 from './SignIn2'
 
 const setup = () => {
   const user = userEvent.setup()
   window.alert = vi.fn()
-  render(<SignIn />)
+  render(<SignIn2 />)
   const userid = screen.getByRole('textbox', { name: 'ユーザーID' })
   const passwd = screen.getByLabelText('パスワード') // type: password は getByRoleでは参照できない。
   const forgot = screen.getByRole('checkbox', { name: 'パスワードを忘れました' })

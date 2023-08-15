@@ -21,7 +21,7 @@ interface Inputs {
 
 const defaultValues: Inputs = { id: '', pass: '', checkbox: true }
 
-export default function Demo() {
+export default function SignIn2() {
   const { control, handleSubmit } = useForm<Inputs>({
     defaultValues: defaultValues,
     resolver: yupResolver(schema)

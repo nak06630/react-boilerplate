@@ -3,16 +3,15 @@ import { Alert, Button, Card, CardHeader, CardContent, Stack, TextField } from '
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { Auth } from '@aws-amplify/auth'
+import { Auth } from 'aws-amplify'
 import awsconfig from '@/aws-exports'
-import { useRecoilState } from 'recoil'
+import { useSetRecoilState } from 'recoil'
 import { currentUserState } from '@/store/user'
 import { Link } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 
 Auth.configure(awsconfig)
 
-console.log(awsconfig)
 interface SampleFormInput {
   email: string
   password: string
@@ -28,7 +27,7 @@ const schema = yup.object({
 
 export default function CardSignIn() {
   const navigate = useNavigate()
-  const [user2, setUser] = useRecoilState(currentUserState)
+  const setUser = useSetRecoilState(currentUserState)
   const [isAlert, setIsAlert] = useState(false)
   const [error, setError] = useState('')
 
@@ -44,11 +43,10 @@ export default function CardSignIn() {
     try {
       const user = await Auth.signIn(data.email, data.password)
       setUser(user)
-      console.log(user2)
 
       const { challengeName } = user
       if (!challengeName) {
-        navigate('/groups/')
+        navigate('/main/')
         return
       }
 
@@ -60,7 +58,7 @@ export default function CardSignIn() {
           return
         }
         await Auth.confirmSignIn(user, code, 'SOFTWARE_TOKEN_MFA')
-        navigate('/groups/')
+        navigate('/main/')
         // Todo:
       } else if (challengeName === 'NEW_PASSWORD_REQUIRED') {
         // const { requiredAttributes } = user.challengeParam
