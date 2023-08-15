@@ -11,7 +11,7 @@ vi.mock('react-router-dom', () => {
 
 vi.mock('recoil', async () => {
   const actual: any = await vi.importActual('recoil')
-  return { ...actual, useRecoilState: () => [{}, vi.fn()] }
+  return { ...actual, useSetRecoilState: () => vi.fn() }
 })
 
 vi.mock('aws-amplify', () => {
