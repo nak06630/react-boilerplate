@@ -1,11 +1,11 @@
 /// <reference types="vitest" />
-import { ConfigEnv, defineConfig, loadEnv, UserConfigExport } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 // also don't forget to "npm i -D @types/node", so __dirname won't complain
 import path from 'path'
 
 // https://vitejs.dev/config/
-export default ({ mode }: ConfigEnv): UserConfigExport => {
+export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd())
 
   // https://github.com/vitejs/vite/issues/1149#issuecomment-857686209
@@ -14,7 +14,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
     return { ...prev, ['process.env.' + key]: `"${val}"` }
   }, {})
 
-  return defineConfig({
+  return {
     // vite の設定
     define: envWithProcessPrefix,
     resolve: {
@@ -25,5 +25,5 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       globals: true,
       environment: 'jsdom'
     }
-  })
-}
+  }
+})

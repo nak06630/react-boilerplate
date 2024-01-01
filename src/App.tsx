@@ -3,6 +3,7 @@ import { Routes, Route, Outlet, Link } from 'react-router-dom'
 import { Button } from '@mui/material'
 
 import Login from '@/pages/index'
+import ForgotPassword from '@/pages/forgotPassword'
 import Main from '@/pages/main/index'
 
 import LayoutMain from '@/layouts/LayoutMain'
@@ -34,6 +35,7 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Login />} />
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
         </Route>
         <Route element={<LayoutMain />}>
           <Route path="/main/" element={<Main />} />

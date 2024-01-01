@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import { describe, test, expect, vi } from 'vitest'
-import SignIn from '@/components/SignIn'
+import SignIn from '@/components/auth/SignIn'
 
 const mockedUsedNavigate = vi.fn()
 vi.mock('react-router-dom', () => {
@@ -16,10 +16,10 @@ vi.mock('recoil', async () => {
 
 vi.mock('aws-amplify', () => {
   return {
-    Auth: {
+    Amplify: {
       configure: () => vi.fn(),
-      signIn: (email: string, password: string) => {
-        console.log(email, password)
+      signIn: (username: string, password: string) => {
+        console.log(username, password)
         return {}
         // return { challengeName: 'SOFTWARE_TOKEN_MFA' }
       }

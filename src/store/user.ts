@@ -1,7 +1,6 @@
 import { atom } from 'recoil'
 
-// CognitoUser
-type Payload = {
+type JwtPayload = {
   sub: string
   'cognito:username': string
   name: string
@@ -13,21 +12,10 @@ type Payload = {
   exp: number
 }
 type IdToken = {
-  jwtToken: string
-  payload: Payload
+  token: string
+  payload: JwtPayload
 }
-type SignInUserSession = {
-  idToken: IdToken
-}
-type CognitoUser = {
-  signInUserSession: SignInUserSession
-  username: string
-  userDataKey: string
-  attributes: { sub: string }
-  preferredMFA: string
-}
-export const currentUserState = atom<CognitoUser | null>({
-  key: 'CognitoUser',
-  default: null,
-  dangerouslyAllowMutability: true // https://zenn.dev/sikkim/articles/f63c6f9d365ecf
+export const userState = atom<IdToken | null>({
+  key: 'userState',
+  default: null
 })
