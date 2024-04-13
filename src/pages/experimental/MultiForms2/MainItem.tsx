@@ -1,13 +1,15 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Box, Stack, TextField, IconButton, Accordion, AccordionSummary, AccordionDetails, MenuItem } from '@mui/material'
 import { FormGroup, FormControlLabel, FormControl, FormLabel, Checkbox } from '@mui/material'
 
 import { Delete as DeleteIcon, ArrowDownward as ArrowDownwardIcon } from '@mui/icons-material'
-import { Control, UseFormRegister, FieldErrors, Controller } from 'react-hook-form'
+import { Control, UseFormRegister, FieldValues, FieldErrors, Controller } from 'react-hook-form'
 import { ErrorMessage } from '@hookform/error-message'
 import { FormType } from './index.tsx'
 import { ChangeEvent, useState } from 'react'
 
 type Props = {
+  fields: FieldValues
   mainIndex: number
   register: UseFormRegister<FormType>
   control: Control<FormType>
@@ -22,8 +24,9 @@ const currencies = [
   { value: 'JPY', label: '¥' }
 ]
 
-export const MainItem = ({ register, delete: deleteMainItem, mainIndex, control, errors }: Props) => {
-  const [chk, setChk] = useState(false)
+export const MainItem = ({ fields, register, delete: deleteMainItem, mainIndex, control, errors }: Props) => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  const [chk, setChk] = useState(fields[mainIndex].option1)
   const hndlChk1 = (event: ChangeEvent<HTMLInputElement>) => {
     setChk(event.target.checked)
   }
@@ -89,22 +92,27 @@ export const MainItem = ({ register, delete: deleteMainItem, mainIndex, control,
           </AccordionSummary>
           <AccordionDetails>
             <Stack spacing={2}>
+              {/* {JSON.stringify(fields[0], null, 2)} */}
               <FormControl component="fieldset" variant="standard">
                 <FormLabel sx={{ fontSize: '0.7rem' }}>チェックボックス</FormLabel>
                 <FormGroup row>
-                  <FormControlLabel control={<Checkbox />} label="check1" {...register(`main.${mainIndex}.check1`)} />
-                  <FormControlLabel control={<Checkbox />} label="check2" {...register(`main.${mainIndex}.check2`)} />
+                  <FormControlLabel control={<Checkbox {...register(`main.${mainIndex}.check1`)} defaultChecked={fields[mainIndex].check1} />} label="check1" />
+                  <FormControlLabel control={<Checkbox {...register(`main.${mainIndex}.check2`)} defaultChecked={fields[mainIndex].check2} />} label="check2" />
                 </FormGroup>
               </FormControl>
               <FormGroup>
-                <FormControlLabel control={<Checkbox onChange={hndlChk1} />} label="追加項目" />
+                <FormControlLabel
+                  control={<Checkbox onChange={hndlChk1} defaultChecked={fields[mainIndex].option1} />}
+                  {...register(`main.${mainIndex}.option1`)}
+                  label="追加項目"
+                />
               </FormGroup>
               {chk && (
                 <TextField
                   sx={{ mr: 2, flex: 3 }}
                   size="small"
                   label="オプション"
-                  {...register(`main.${mainIndex}.option`, {
+                  {...register(`main.${mainIndex}.option1name`, {
                     required: '⚠ 名前を入力してください',
                     pattern: {
                       value: /^\d+$/,

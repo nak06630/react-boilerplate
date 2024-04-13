@@ -13,8 +13,19 @@ type MainType = {
   sel: string
   check1: boolean
   check2: boolean
-  option?: boolean
+  option1: boolean
+  option1name?: string
 }
+
+const loadValue = {
+  main: [
+    // def
+    { id: '11', name: '33', sel: '', check1: true, check2: false, option1: true, option1name: 'aaa' },
+    { id: '22', name: '44', sel: '', check1: false, check2: true, option1: false }
+  ]
+}
+
+const initValue = { id: '', name: '', sel: '', check1: false, check2: false, option1: false }
 
 export default function Forms() {
   const {
@@ -23,7 +34,7 @@ export default function Forms() {
     control,
     formState: { errors, isValid, isDirty }
   } = useForm<FormType>({
-    defaultValues: { main: [{ id: '', name: '', sel: '', check1: false, check2: false }] },
+    defaultValues: loadValue,
     mode: 'onBlur'
   })
 
@@ -40,14 +51,22 @@ export default function Forms() {
   return (
     <Card sx={{ maxWidth: 1000, m: 5 }}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <CardHeader title="MultiFormサンプル" subheader="MainItemを1つまたは複数設定してください。MainItemはSubItemを複数設定することができます。" />
+        <CardHeader title="MultiFormサンプル2" subheader="MainItemを1つまたは複数設定してください。" />
         <CardContent>
           <Stack spacing={2}>
             {fields.map((_field, index) => (
-              <MainItem key={index} register={register} control={control} mainIndex={index} delete={() => deleteMainItem(index)} errors={errors} />
+              <MainItem
+                key={index}
+                fields={fields}
+                register={register}
+                control={control}
+                mainIndex={index}
+                delete={() => deleteMainItem(index)}
+                errors={errors}
+              />
             ))}
           </Stack>
-          <Button sx={{ mt: 1 }} startIcon={<AddIcon />} color="primary" onClick={() => append({ id: '', name: '', sel: '', check1: false, check2: false })}>
+          <Button sx={{ mt: 1 }} startIcon={<AddIcon />} color="primary" onClick={() => append(initValue)}>
             グループを追加する
           </Button>
         </CardContent>
