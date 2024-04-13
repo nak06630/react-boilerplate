@@ -3,6 +3,7 @@ import { Button } from '@mui/material'
 
 import Home from './components/Home'
 import MultiForms from './MultiForms'
+import MultiForms2 from './MultiForms2'
 import Forms from './Forms'
 import LineChart from './LineChart'
 import Map from './Map'
@@ -14,6 +15,7 @@ import NotFound from '@/components/error/NotFound'
 const experimentals = [
   { path: 'forms', component: <Forms /> },
   { path: 'multiforms', component: <MultiForms /> },
+  { path: 'multiforms2', component: <MultiForms2 /> },
   { path: 'linechart', component: <LineChart /> },
   { path: 'map', component: <Map /> },
   { path: 'vis', component: <Vis /> },
