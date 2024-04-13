@@ -14,6 +14,7 @@ const theme = createTheme({
   },
   // https://qiita.com/honey32/items/b3585b75307b865267aa
   components: {
+    /*
     // TextField 関連のコンポーネントのスタイルを調整する
     MuiInputLabel: {
       styleOverrides: {
@@ -55,6 +56,17 @@ const theme = createTheme({
           // フォーム下部のテキスト、エラーメッセージ
           // お好みで左余白を無くしています。
           marginLeft: 0
+        }
+      }
+    }
+     */
+    MuiFormLabel: {
+      styleOverrides: {
+        asterisk: {
+          color: red.A400, // MUIデフォルトテーマの「error」の色
+          '&$error': {
+            color: red.A400
+          }
         }
       }
     }

@@ -2,7 +2,7 @@ import { Routes, Route, Link } from 'react-router-dom'
 import { Button } from '@mui/material'
 
 import Home from './components/Home'
-import SignIn2 from './SignIn2'
+import MultiForms from './MultiForms'
 import Forms from './Forms'
 import LineChart from './LineChart'
 import Map from './Map'
@@ -12,8 +12,8 @@ import NotFound from '@/components/error/NotFound'
 
 // pages/experimnental/componentsに実験用のコンポーネントをおいてここに追加する。
 const experimentals = [
-  { path: 'signin2', component: <SignIn2 /> },
   { path: 'forms', component: <Forms /> },
+  { path: 'multiforms', component: <MultiForms /> },
   { path: 'linechart', component: <LineChart /> },
   { path: 'map', component: <Map /> },
   { path: 'vis', component: <Vis /> },

@@ -55,7 +55,7 @@ const checkbox1_props = [
   { label: 'ばなな3', value: 'banana3' }
 ]
 
-export default function Forms() {
+export default function Forms3() {
   const { control, handleSubmit, reset } = useForm({
     defaultValues: defaultValues,
     resolver: yupResolver(schema)
@@ -66,24 +66,26 @@ export default function Forms() {
   }
 
   return (
-    <Card sx={{ maxWidth: 400, m: 5 }}>
-      <CardHeader title="Formサンプル" subheader="sample" />
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <CardContent>
-          <Stack spacing={3}>
-            <NTextField label="メールアドレス" name="text1" control={control} fullWidth />
-            <NRadioGroup label="らじお" name="radio1" control={control} radioPropsList={radio1_props} />
-            <NSelect label="せれくと" name="select1" control={control} selectPropsList={select1_props} />
-            <NCheckboxGroup label="ちぇっくぼっくす" name="checkbox1" control={control} checkBoxPropsList={checkbox1_props} />
-          </Stack>
-        </CardContent>
-        <CardActions>
-          <Button type="submit" variant="contained">
-            送信
-          </Button>
-          <Button onClick={() => reset()}>リセット</Button>
-        </CardActions>
-      </Form>
-    </Card>
+    <>
+      <Card sx={{ maxWidth: 400, m: 5 }}>
+        <CardHeader title="Formサンプル" subheader="sample" />
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <CardContent>
+            <Stack spacing={3}>
+              <NTextField label="メールアドレス" name="text1" control={control} fullWidth />
+              <NRadioGroup label="らじお" name="radio1" control={control} radioPropsList={radio1_props} />
+              <NSelect label="せれくと" name="select1" control={control} selectPropsList={select1_props} />
+              <NCheckboxGroup label="ちぇっくぼっくす" name="checkbox1" control={control} checkBoxPropsList={checkbox1_props} />
+            </Stack>
+          </CardContent>
+          <CardActions>
+            <Button type="submit" variant="contained">
+              送信
+            </Button>
+            <Button onClick={() => reset()}>リセット</Button>
+          </CardActions>
+        </Form>
+      </Card>
+    </>
   )
 }
