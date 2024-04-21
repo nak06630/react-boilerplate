@@ -1,7 +1,8 @@
 import * as React from 'react'
-import Table1 from './VirtualizedTable'
+import NVirtualizedTable from './NVirtualizedTable'
+import BasicReactTable from './BasicReactTable'
 import DndTable from './DndTable'
-import DraggableTable from './DraggableTable/'
+import DraggableTable from './DraggableTable'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 
@@ -42,18 +43,22 @@ export default function ExperimentalTable() {
     <>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+          <Tab label="Item1" {...a11yProps(0)} />
+          <Tab label="Item2" {...a11yProps(1)} />
+          <Tab label="Item3" {...a11yProps(2)} />
+          <Tab label="Item4" {...a11yProps(3)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <Table1 />
+        <BasicReactTable />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <DndTable />
+        <NVirtualizedTable />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
+        <DndTable />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={3}>
         <DraggableTable />
       </CustomTabPanel>
     </>

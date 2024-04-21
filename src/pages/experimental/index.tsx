@@ -4,9 +4,9 @@ import { Dashboard, Map as MapIcon, Edit, Hub, LineAxis, TableRowsOutlined } fro
 
 /** 実験用コードは @/components/experimental/ に配置 */
 import Forms from './form/'
-import LineChart from './LineChart'
-import Map from './Map'
-import Vis from './Vis'
+import LineChart from './chart/LineChart'
+import Map from './map/Map'
+import Vis from './vis/Vis'
 import Table from './table'
 
 /** NavigationMenu */
@@ -14,10 +14,10 @@ export const ExperimentalMenu = () => {
   return [
     { title: 'Top', icon: Dashboard, href: `/experimental/` },
     { title: 'Forms', icon: Edit, href: `/experimental/form/` },
+    { title: 'Table', icon: TableRowsOutlined, href: `/experimental/table/` },
     { title: 'linechart', icon: LineAxis, href: `/experimental/linechart` },
     { title: 'map', icon: MapIcon, href: `/experimental/map` },
-    { title: 'Vis', icon: Hub, href: `/experimental/vis` },
-    { title: 'Table', icon: TableRowsOutlined, href: `/experimental/table/` }
+    { title: 'Vis', icon: Hub, href: `/experimental/vis` }
   ]
 }
 

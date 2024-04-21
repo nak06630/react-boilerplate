@@ -1,4 +1,4 @@
-import NDraggableTable from '../../components/DraggableTable/'
+import NDraggableTable from '@/components/common/table/DraggableTable/'
 import { useState } from 'react'
 
 export type Element = {
