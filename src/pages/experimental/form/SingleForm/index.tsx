@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import { Box, Grid, Stack, Button } from '@mui/material'
-import { Card, CardHeader, CardContent, CardActions } from '@mui/material'
+import { CardHeader, CardContent, CardActions } from '@mui/material'
+import { Settings } from '@mui/icons-material'
 import { useForm, Controller } from 'react-hook-form'
 import { TextField, MenuItem } from '@mui/material'
 import { FormControlLabel, FormControl, FormLabel } from '@mui/material'
 import { RadioGroup, Radio } from '@mui/material'
 import { FormGroup, Checkbox } from '@mui/material'
 import { ErrorMessage } from '@hookform/error-message'
+import { NCard, NCardHeader } from '@/components/common/card'
 
 export type FormType = {
   items: MainType
@@ -34,7 +36,7 @@ const defaultValues = {
   items: { name: '', sel: '', check1: true, check2: false, radio1: 'female' }
 }
 
-export default function Forms2() {
+export default function SingleForms() {
   const [result, setResult] = useState(defaultValues)
   const {
     register,
@@ -52,10 +54,10 @@ export default function Forms2() {
 
   return (
     <Grid container spacing={2} justifyContent="center">
-      <Grid item xs={4}>
-        <Card>
+      <Grid item xs={6}>
+        <NCard>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <CardHeader title="Formサンプル2" />
+            <NCardHeader title="SingleFormサンプル" icon={<Settings />} subheader="単一のJSONを生成するフォームのサンプルです。 \n テスト" />
             <CardContent>
               <Stack spacing={2}>
                 <Box display="flex">
@@ -135,15 +137,15 @@ export default function Forms2() {
               </Button>
             </CardActions>
           </form>
-        </Card>
+        </NCard>
       </Grid>
       <Grid item xs={4}>
-        <Card>
-          <CardHeader title="Debug" />
+        <NCard>
+          <NCardHeader title="Debug" />
           <CardContent>
             <Box sx={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(result, null, 2)}</Box>
           </CardContent>
-        </Card>
+        </NCard>
       </Grid>
     </Grid>
   )
