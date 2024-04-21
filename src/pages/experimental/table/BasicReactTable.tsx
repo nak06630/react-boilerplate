@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { Card } from '@mui/material'
+import { Card, CardContent, CardHeader } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
 import { fetcher } from '@/hooks/fetcher'
 import BasicReactTable from '@/components/common/table/BasicReactPagenationTable'
@@ -32,8 +32,10 @@ export default function SampleTable() {
 
   return (
     <Card sx={{ width: '100%' }}>
-      <h2>ユーザ一覧</h2>
-      <BasicReactTable columns={columns} data={data} />
+      <CardHeader title="ユーザ一覧" />
+      <CardContent>
+        <BasicReactTable columns={columns} data={data} />
+      </CardContent>
     </Card>
   )
 }

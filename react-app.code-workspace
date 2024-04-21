@@ -8,7 +8,7 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": "explicit"
+      "source.fixAll.eslint": "explicit"
     }
   },
   "extensions": {
@@ -16,9 +16,9 @@
       "editorconfig.editorconfig",
       "dbaeumer.vscode-eslint",
       "esbenp.prettier-vscode",
-      "zixuanchen.vitest-explorer",
       "ms-vscode.live-server",
-      "shd101wyy.markdown-preview-enhanced"
+      "shd101wyy.markdown-preview-enhanced",
+      "vitest.explorer"
     ]
   }
 }
