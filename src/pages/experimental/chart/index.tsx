@@ -1,8 +1,8 @@
 import * as React from 'react'
-import { Box, Tabs, Tab } from '@mui/material/'
-import SingleForm from './SingleForm'
-import MultiForm from './MultiForm'
-import MultiForm2 from './MultiForm2'
+import LineChart from './LineChart'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
+import Box from '@mui/material/Box'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -27,7 +27,8 @@ function a11yProps(index: number) {
   }
 }
 
-export default function Form() {
+/** ExperimentalPage(TopPage) */
+export default function ExperimentalTable() {
   const [value, setValue] = React.useState(0)
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -39,18 +40,10 @@ export default function Form() {
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Item1" {...a11yProps(0)} />
-          <Tab label="Item2" {...a11yProps(1)} />
-          <Tab label="Item3" {...a11yProps(2)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <SingleForm />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-        <MultiForm />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-        <MultiForm2 />
+        <LineChart />
       </CustomTabPanel>
     </>
   )

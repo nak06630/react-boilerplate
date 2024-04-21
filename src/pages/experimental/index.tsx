@@ -2,21 +2,20 @@ import { Routes, Route } from 'react-router-dom'
 import { Card, CardHeader, CardContent } from '@mui/material'
 import { Dashboard, Map as MapIcon, Edit, Hub, LineAxis, TableRowsOutlined } from '@mui/icons-material'
 
-/** 実験用コードは @/components/experimental/ に配置 */
-import Forms from './form/'
-import LineChart from './chart/LineChart'
+import Form from './form/'
+import Table from './table'
+import Chart from './chart'
 import Map from './map/Map'
 import Vis from './vis/Vis'
-import Table from './table'
 
 /** NavigationMenu */
 export const ExperimentalMenu = () => {
   return [
-    { title: 'Top', icon: Dashboard, href: `/experimental/` },
-    { title: 'Forms', icon: Edit, href: `/experimental/form/` },
-    { title: 'Table', icon: TableRowsOutlined, href: `/experimental/table/` },
-    { title: 'linechart', icon: LineAxis, href: `/experimental/linechart` },
-    { title: 'map', icon: MapIcon, href: `/experimental/map` },
+    { title: 'Top', icon: Dashboard, href: `/experimental` },
+    { title: 'Form', icon: Edit, href: `/experimental/form` },
+    { title: 'Table', icon: TableRowsOutlined, href: `/experimental/table` },
+    { title: 'Chart', icon: LineAxis, href: `/experimental/chart` },
+    { title: 'Map', icon: MapIcon, href: `/experimental/map` },
     { title: 'Vis', icon: Hub, href: `/experimental/vis` }
   ]
 }
@@ -26,11 +25,11 @@ export const ExperimentalRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<ExperimentalPage />} />
-      <Route path="/form" element={<Forms />} />
-      <Route path="/linechart" element={<LineChart />} />
+      <Route path="/form" element={<Form />} />
+      <Route path="/table" element={<Table />} />
+      <Route path="/chart" element={<Chart />} />
       <Route path="/map" element={<Map />} />
       <Route path="/vis" element={<Vis />} />
-      <Route path="/table" element={<Table />} />
     </Routes>
   )
 }

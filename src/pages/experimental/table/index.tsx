@@ -1,12 +1,9 @@
 import * as React from 'react'
-import NVirtualizedTable from './NVirtualizedTable'
+import { Box, Tabs, Tab } from '@mui/material/'
 import BasicReactTable from './BasicReactTable'
+import NVirtualizedTable from './NVirtualizedTable'
 import DndTable from './DndTable'
 import DraggableTable from './DraggableTable'
-import Tabs from '@mui/material/Tabs'
-import Tab from '@mui/material/Tab'
-
-import Box from '@mui/material/Box'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -31,8 +28,7 @@ function a11yProps(index: number) {
   }
 }
 
-/** ExperimentalPage(TopPage) */
-export default function ExperimentalTable() {
+export default function Table() {
   const [value, setValue] = React.useState(0)
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
