@@ -1,24 +1,23 @@
 import { useState, useEffect } from 'react'
-import { useNavigate, Outlet } from 'react-router-dom'
-import { useRecoilState } from 'recoil'
-import { userState } from '@/store/user'
+import { useNavigate, Outlet, useLocation } from 'react-router-dom'
 import { AppBar, Toolbar, Menu, MenuItem, Box, Typography, IconButton } from '@mui/material'
-import { Drawer } from '@mui/material'
-import { List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
-import DashboardIcon from '@mui/icons-material/Dashboard'
-import { Amplify } from 'aws-amplify'
-import awsconfig from '@/aws-exports'
-import { signOut } from 'aws-amplify/auth'
+import MenuIcon from '@mui/icons-material/Menu'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import { useRecoilValue } from 'recoil'
+import { userState } from '@/store/user'
+import { signOut } from 'aws-amplify/auth'
+import { NavigationDrawer } from '@/layouts/NavigationDrawer'
 
-Amplify.configure(awsconfig as any)
-const drawerWidth = 240
 const title = process.env.VITE_TITLE
+const drawerWidth = 240
 
-export default function LayoutMain() {
-  const [user] = useRecoilState(userState)
+export default function Layout() {
+  const user = useRecoilValue(userState)
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const navigate = useNavigate()
+  const { pathname } = useLocation()
+
+  const [isOpen, setIsOpen] = useState(true)
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -30,7 +29,7 @@ export default function LayoutMain() {
 
   const handleSignOut = async () => {
     try {
-      await signOut()
+      await signOut({ global: true })
       navigate('/')
     } catch (error) {
       console.log('error signing out: ', error)
@@ -38,42 +37,56 @@ export default function LayoutMain() {
   }
 
   useEffect(() => {
-    if (!user) navigate('/')
+    if (!pathname.match(/^\/experimental\//)) {
+      if (!user) navigate('/')
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [user])
 
   return (
     <Box sx={{ display: 'flex' }}>
       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-        <Toolbar variant="dense">
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+            onClick={() => {
+              setIsOpen(!isOpen)
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             {title}
           </Typography>
+          <Typography variant="h6" component="div">
+            {user?.payload.name}
+          </Typography>
           {
-            <>
+            <div>
               <IconButton size="large" onClick={handleMenu} color="inherit">
                 <AccountCircleIcon />
               </IconButton>
               <Menu id="menu-appbar" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
-                <MenuItem onClick={handleSignOut}>ログアウト</MenuItem>
+                <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
               </Menu>
-            </>
+            </div>
           }
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" sx={{ width: drawerWidth, flexShrink: 0, '& .MuiDrawer-paper': { width: drawerWidth, boxSizing: 'border-box' } }}>
-        <Toolbar variant="dense" />
-        <List>
-          <ListItemButton>
-            <ListItemIcon>
-              <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText>ダッシュボード</ListItemText>
-          </ListItemButton>
-        </List>
-      </Drawer>
+      <NavigationDrawer
+        isOpen={isOpen}
+        variant={'permanent'}
+        width={drawerWidth}
+        onClose={() => {
+          setIsOpen(false)
+        }}
+      />
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <Toolbar variant="dense" />
+        <Toolbar />
         <Outlet />
       </Box>
     </Box>

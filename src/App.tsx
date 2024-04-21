@@ -8,7 +8,7 @@ import Main from '@/pages/main/index'
 
 import LayoutMain from '@/layouts/LayoutMain'
 
-import Experimental from '@/pages/experimental/index'
+import { ExperimentalRoutes } from '@/pages/experimental'
 import NotFound from '@/components/error/NotFound'
 
 function Layout() {
@@ -40,7 +40,9 @@ function App() {
         <Route element={<LayoutMain />}>
           <Route path="/main/" element={<Main />} />
         </Route>
-        <Route path="/experimental/*" element={<Experimental />} />
+        <Route element={<LayoutMain />}>
+          <Route path="/experimental/*" element={<ExperimentalRoutes />} />
+        </Route>
         {/* Using path="*"" means "match anything", so this route acts like a catch-all for URLs that we don't have explicit routes for. */}
         <Route path="*" element={<NotFound />} />
       </Routes>
