@@ -43,7 +43,6 @@ export default function DialogMFASetup(props: { open: boolean; onClose: () => vo
     }
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     if (open) fetchData()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open])
 
   const onSubmit: SubmitHandler<FormInput> = async (data) => {
